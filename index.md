@@ -1,4 +1,4 @@
-# JustAnotherAI - Tiny AI Experiment  
+# [JustAnotherAI - Tiny AI Experiment  ](https://github.com/bughme/JustAnotherAI)
 
 **A different approach** — Not brute-forcing with thousands of NVIDIA GPUs. Early results are promising, but science loves surprises.  
 
