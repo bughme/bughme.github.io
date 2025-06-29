@@ -155,7 +155,13 @@
 
 <script>
   function getSubmit() {
-    document.getElementById("number").value = "d" + '' + (Math.floor(Math.random() * 900000) + 100000) + '' + (Date.now() % 1000000);
+     const descriptionField = document.getElementById("description");
+     const amountField = document.getElementById("amount");
+
+     if (descriptionField && amountField && descriptionField.value === '') { 
+         descriptionField.value = `donation ${amountField.value}`;
+     }
+     document.getElementById("number").value = "d" + '' + (Math.floor(Math.random() * 900000) + 100000) + '' + (Date.now() % 1000000);
   }
     
   function getCurrency() {
