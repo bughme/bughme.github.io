@@ -16,6 +16,200 @@
   
 
 
+<style>
+  body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f8f8f8;
+  }
+
+  .donation-form {
+    max-width: 266px; /* Reduced by 1.5x */
+    margin: 25px auto; /* Reduced vertical space */
+    padding: 24px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    background-color: #f5f5f5; /* Light gray background */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+
+  .form-header {
+    background-color: #121212;
+    color: #f0f0f0;
+    padding: 12px;
+    margin: -24px -24px 20px -24px;
+    border-radius: 6px 6px 0 0;
+    font-size: 14px;
+    text-align: center;
+    letter-spacing: 0.5px;
+  }
+
+  .donation-form label {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 12px;
+    color: #555;
+    font-weight: 500;
+  }
+
+  .amount-wrapper {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 12px;
+  }
+
+  .amount-wrapper input[type="text"] {
+    flex: 1;
+    padding: 6px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    background-color: #fff;
+    text-align: right;
+    font-size: 13px;
+  }
+
+  .amount-wrapper button {
+    width: 28px;
+    font-weight: 300;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #555;
+  }
+
+  .donation-form input,
+  .donation-form select,
+  .donation-form textarea {
+    width: 100%;
+    padding: 6px;
+    margin-bottom: 12px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    background-color: #fff;
+    font-size: 13px;
+  }
+
+  .donation-form textarea {
+    height: 60px; /* 3-line textarea */
+    resize: vertical;
+  }
+
+  .char-counter {
+    font-size: 11px;
+    color: #999;
+    text-align: right;
+    margin-top: -10px;
+    margin-bottom: 12px;
+  }
+
+  .donation-form input[type="submit"] {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    border-radius: 3px;
+    transition: background-color 0.2s;
+  }
+
+  .donation-form input[type="submit"]:hover {
+    background-color: #000;
+  }
+</style>
+
+<form class="donation-form" action="https://stihistat.com/shop/" method="POST">
+  <div class="form-header">
+    Securely send via CAPITALIST.NET to BUGHME AI LAB
+  </div>
+  
+  <input type="hidden" name="merchantid" value="104613">
+  <input type="hidden" name="number" id="number" value="donate123" />
+  
+  <label for="currency">Currency:</label>
+  <select name="currency" id="currency" required onchange="updateCurrencyDefaults()">
+    <option value="USD">Dollars (USD)</option>
+    <option value="EUR">Euros (EUR)</option>
+  </select>
+
+  <label for="amount">Amount:</label>
+  <div class="amount-wrapper">
+    <input type="text" id="amount" name="amount" value="4.99" readonly>
+    <button type="button" onclick="changeAmount(-1)"> &mdash; </button>
+    <button type="button" onclick="changeAmount(1)"> + </button>
+  </div>
+
+<label for="email">Contact & notes (optional):</label>
+<input type="email" name="opt_email" placeholder="your@email.com">
+    
+<textarea name="description" id="description" maxlength="200" oninput="updateCharCounter()" 
+          placeholder="Your message (200 chars max)"></textarea>
+<div class="char-counter"><span id="char-count">0</span>/200</div>
+  
+  <input type="hidden" name="sign" value="1111eeffaa2222cccc3333dddd123456" />
+  <input type="submit" id="submitButton" onclick="getSubmit()" value="Send">
+</form>
+
+<script>
+  function getSubmit() {
+    document.getElementById("number").value = "d" + '' + (Math.floor(Math.random() * 900000) + 100000) + '' + (Date.now() % 1000000);
+  }
+    
+  function getCurrency() {
+    return document.getElementById("currency").value;
+  }
+
+  function getMinValue() {
+    return getCurrency() === "RUB" ? 100 : 1;
+  }
+
+  function updateCurrencyDefaults() {
+    var currency = getCurrency();
+    var amount = currency === "RUB" ? 100 : 2.99;
+    document.getElementById("amount").value = amount;
+    updateButtonText();
+  }
+
+  function changeAmount(direction) {
+    var currency = getCurrency();
+    var input = document.getElementById("amount");
+    var current = parseFloat(input.value) || 0;
+    var step = 1;
+    var min = getMinValue();
+
+    var newValue = current + direction * step;
+    if (newValue < min) newValue = min;
+
+    if (currency === "RUB") {
+      input.value = Math.round(newValue);
+    } else {
+      input.value = newValue.toFixed(2);
+    }
+
+    updateButtonText();
+  }
+
+  function updateButtonText() {
+    var amount = document.getElementById("amount").value;
+    document.getElementById("submitButton").value = "Send " + amount;
+  }
+
+  function updateCharCounter() {
+    var text = document.getElementById("description").value;
+    document.getElementById("char-count").textContent = text.length;
+  }
+
+  // Initialize on load
+  window.onload = function() {
+    updateCurrencyDefaults();
+    updateCharCounter();
+  };
+</script>
+    
+
   
   
 </body>
